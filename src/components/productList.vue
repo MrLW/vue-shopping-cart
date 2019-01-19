@@ -3,8 +3,8 @@
         <li v-for="product in products"
         :key="product.id"
         >
-        {{product.title}} - {{product.price}}
-            <button @click="addProductToCart">添加购物车</button>
+        {{product.title}} - {{product.price}} -- {{product.inventory}}
+            <button @click="addProductToCart(product)">添加购物车</button>
         </li>
     </ul>
 </template>
