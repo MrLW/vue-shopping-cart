@@ -1,3 +1,4 @@
+import shop from '../../api/shop';
 const state = {
     items : [],
     checkoutStatus : null
@@ -38,9 +39,26 @@ const actions = {
             commit('products/decrementProductInventory',{id:product.id},{ root: true });
         }
     },
+    checkout({commit,state},products){
+        console.log('checkout...')
+        // 保存购物车
+        const savedCartItems = [...state.items];
+        commit('setCheckoutStatus',null);
+        commit('setCartItems',{items:[]});
+        shop.buyProducts(products,
+            ()=>commit('setCheckoutStatus','successful'),
+            ()=>{
+                commit('setCheckoutStatus','failed');
+                commit('setCartItems',{items:savedCartItems})
+            })
+    }
 }
 
 const mutations = {
+
+    setCartItems(state,{items}){
+        state.items = items ;
+    },
 
     setCheckoutStatus(state,status){
         state.checkoutStatus = status ;
